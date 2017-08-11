@@ -1,0 +1,4 @@
+name: PistonJammer
+version: ${project.version}
+author: domisum
+main: de.domisum.pistonjammer.PistonJammer
