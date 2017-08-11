@@ -1,9 +1,12 @@
 package de.domisum.pistonjammer;
 
+import de.domisum.lib.auxilium.util.TextUtil;
 import de.domisum.lib.auxiliumspigot.AuxiliumSpigotLib;
 import de.domisum.lib.codex.mysql.MySQLConPoolWrapper;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public class PistonJammer extends JavaPlugin
 {
@@ -11,6 +14,9 @@ public class PistonJammer extends JavaPlugin
 	// REFERENCES
 	@Getter private static PistonJammer instance;
 	private MySQLConPoolWrapper mySQLConPool;
+
+	private int maxPistons;
+	private List<String> worlds;
 
 
 	// INIT
@@ -21,8 +27,11 @@ public class PistonJammer extends JavaPlugin
 		AuxiliumSpigotLib.enable(this);
 
 		initConfig();
+		loadConfigValues();
 		connectToDatabase();
 
+		getLogger().info("Max pistons per chunk: "+this.maxPistons);
+		getLogger().info("Active in worlds: "+TextUtil.getListAsString(this.worlds));
 
 		getLogger().info(this.getClass().getSimpleName()+" has been enabled");
 	}
@@ -41,6 +50,12 @@ public class PistonJammer extends JavaPlugin
 	{
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+	}
+
+	private void loadConfigValues()
+	{
+		this.maxPistons = getConfig().getInt("maxPistons");
+		this.worlds = getConfig().getStringList("worlds");
 	}
 
 
