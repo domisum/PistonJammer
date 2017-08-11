@@ -1,0 +1,9 @@
+maxPistons: 50
+worlds:
+  - 'world'
+database:
+  host: 'localhost'
+  port: 3306
+  username: 'username_goes_here'
+  password: 'password_goes_here'
+  databaseName: 'pistonJammer'
