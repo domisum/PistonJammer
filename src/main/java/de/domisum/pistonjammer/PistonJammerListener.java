@@ -67,13 +67,29 @@ public class PistonJammerListener implements Listener
 
 
 	// EVENTS: REDSTONE
-	@EventHandler public void onRedstone(BlockRedstoneEvent event)
+	@EventHandler public void cancelRedstone(BlockRedstoneEvent event)
 	{
 		if(isRedstoneActivated(event.getBlock().getChunk()))
 			return;
 
 		// this effectively cancels the event
 		event.setNewCurrent(event.getOldCurrent());
+	}
+
+	@EventHandler public void cancelPistonExtend(BlockPistonExtendEvent event)
+	{
+		if(isRedstoneActivated(event.getBlock().getChunk()))
+			return;
+
+		event.setCancelled(true);
+	}
+
+	@EventHandler public void cancelPistonRetract(BlockPistonRetractEvent event)
+	{
+		if(isRedstoneActivated(event.getBlock().getChunk()))
+			return;
+
+		event.setCancelled(true);
 	}
 
 
@@ -86,6 +102,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockPlace(BlockPlaceEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		checkChangeChunkPistons(event.getBlockPlaced(), +1);
 	}
 
@@ -96,6 +115,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockBreak(BlockBreakEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		checkChangeChunkPistons(event.getBlock(), -1);
 	}
 
@@ -106,6 +128,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onEntityExplode(EntityExplodeEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		for(Block block : event.blockList())
 			checkChangeChunkPistons(block, -1);
 	}
@@ -117,6 +142,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockExplode(BlockExplodeEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		for(Block block : event.blockList())
 			checkChangeChunkPistons(block, -1);
 	}
@@ -127,6 +155,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockMoveByPiston(BlockPistonExtendEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		pistonMoveBlocks(event.getBlocks(), event.getDirection());
 	}
 
@@ -136,6 +167,9 @@ public class PistonJammerListener implements Listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockMoveByPiston(BlockPistonRetractEvent event)
 	{
+		if(event.isCancelled())
+			return;
+
 		pistonMoveBlocks(event.getBlocks(), event.getDirection());
 	}
 
