@@ -2,10 +2,13 @@ package de.domisum.pistonjammer;
 
 import de.domisum.lib.auxilium.util.TextUtil;
 import de.domisum.lib.auxiliumspigot.AuxiliumSpigotLib;
-import de.domisum.lib.codex.mysql.MySQLConPoolWrapper;
+import de.domisum.pistonjammer.register.ChunkPistonRegister;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PistonJammer extends JavaPlugin
@@ -13,10 +16,13 @@ public class PistonJammer extends JavaPlugin
 
 	// REFERENCES
 	@Getter private static PistonJammer instance;
-	private MySQLConPoolWrapper mySQLConPool;
 
-	private int maxPistons;
-	private List<String> worlds;
+	@Getter ChunkPistonRegister chunkPistonRegister;
+
+	// SETTINGS
+	@Getter private int maxPistons;
+	private List<String> worldNames;
+	@Getter private List<World> worlds;
 
 
 	// INIT
@@ -28,24 +34,27 @@ public class PistonJammer extends JavaPlugin
 
 		initConfig();
 		loadConfigValues();
-		connectToDatabase();
+
+		this.chunkPistonRegister = new ChunkPistonRegister(this.worlds);
+		new PistonJammerListener();
 
 		getLogger().info("Max pistons per chunk: "+this.maxPistons);
-		getLogger().info("Active in worlds: "+TextUtil.getListAsString(this.worlds));
+		getLogger().info("Active in worldNames: "+TextUtil.getListAsString(this.worldNames));
+
 
 		getLogger().info(this.getClass().getSimpleName()+" has been enabled");
 	}
 
 	@Override public void onDisable()
 	{
-		this.mySQLConPool.close();
-
 		AuxiliumSpigotLib.disable();
 
 
 		getLogger().info(this.getClass().getSimpleName()+" has been disabled");
 	}
 
+
+	// CONFIG
 	private void initConfig()
 	{
 		getConfig().options().copyDefaults(true);
@@ -55,22 +64,11 @@ public class PistonJammer extends JavaPlugin
 	private void loadConfigValues()
 	{
 		this.maxPistons = getConfig().getInt("maxPistons");
-		this.worlds = getConfig().getStringList("worlds");
-	}
+		this.worldNames = getConfig().getStringList("worldNames");
 
-
-	// DATABASE
-	private void connectToDatabase()
-	{
-		String serverAddress = getConfig().getString("database.serverAddress");
-		int port = getConfig().getInt("database.port");
-		String username = getConfig().getString("database.username");
-		String password = getConfig().getString("database.password");
-
-		getLogger().info("Connecting to MySQL database '"+serverAddress+":"+port+"' with username '"+username+"' using password '"
-				+"XXXXX"+"'");
-
-		this.mySQLConPool = new MySQLConPoolWrapper(serverAddress, port, username, password);
+		this.worlds = new ArrayList<>();
+		for(String worldName : this.worldNames)
+			this.worlds.add(Bukkit.getWorld(worldName));
 	}
 
 }

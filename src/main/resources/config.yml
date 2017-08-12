@@ -1,4 +1,4 @@
-maxPistons: 50
+maxPistons: 10
 worlds:
   - 'world'
 database:
