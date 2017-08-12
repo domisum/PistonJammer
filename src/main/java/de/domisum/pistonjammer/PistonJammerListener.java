@@ -1,9 +1,7 @@
 package de.domisum.pistonjammer;
 
-import de.domisum.lib.auxiliumspigot.util.DebugUtil;
 import de.domisum.pistonjammer.register.ChunkPistonRegister;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -11,7 +9,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
@@ -19,8 +16,6 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
@@ -46,23 +41,6 @@ public class PistonJammerListener implements Listener
 		instance.getServer().getPluginManager().registerEvents(this, instance);
 	}
 
-
-	@EventHandler public void onTest(PlayerInteractEvent event)
-	{
-
-		if(event.getAction() != Action.RIGHT_CLICK_BLOCK)
-			return;
-
-		if(event.getHand() != EquipmentSlot.HAND)
-			return;
-
-		Location location = event.getClickedBlock().getLocation();
-		if(!PistonJammer.getInstance().getWorlds().contains(location.getWorld()))
-			return;
-
-		int count = PistonJammer.getInstance().getChunkPistonRegister().getChunkPistons(location.getChunk());
-		DebugUtil.say("count: "+count);
-	}
 
 	// EVENTS: REDSTONE
 	@EventHandler public void onRedstone(BlockRedstoneEvent event)
