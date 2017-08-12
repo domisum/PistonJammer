@@ -32,7 +32,7 @@ public class ChunkPistonCounter
 			for(int z = 0; z < 16; z++)
 				for(int y = 0; y < this.world.getMaxHeight(); y++)
 				{
-					int block = cs.getBlockTypeId(x, y, z);
+					@SuppressWarnings("deprecation") int block = cs.getBlockTypeId(x, y, z);
 
 					if(block == 29 || block == 33)
 						pistonCount++;

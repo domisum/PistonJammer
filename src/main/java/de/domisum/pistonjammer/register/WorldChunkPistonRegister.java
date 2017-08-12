@@ -27,7 +27,7 @@ public class WorldChunkPistonRegister
 		return this.chunkPistonCount.containsKey(new ChunkLocation(cX, cZ));
 	}
 
-	public int getChunkPistons(int cX, int cZ)
+	private int getChunkPistons(int cX, int cZ)
 	{
 		if(!isChunkRegistered(cX, cZ))
 			countChunkPistons(cX, cZ);
