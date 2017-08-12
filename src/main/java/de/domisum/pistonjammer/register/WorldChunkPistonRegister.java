@@ -1,5 +1,7 @@
 package de.domisum.pistonjammer.register;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 
@@ -64,6 +66,18 @@ public class WorldChunkPistonRegister
 		int count = counter.count();
 
 		this.chunkPistonCount.put(new ChunkLocation(cX, cZ), count);
+	}
+
+
+	// CHUNK LOCATION
+	@EqualsAndHashCode
+	@AllArgsConstructor
+	private class ChunkLocation
+	{
+
+		public final int cX;
+		public final int cZ;
+
 	}
 
 }
