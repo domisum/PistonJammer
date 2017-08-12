@@ -39,7 +39,7 @@ public class PistonJammer extends JavaPlugin
 		new PistonJammerListener();
 
 		getLogger().info("Max pistons per chunk: "+this.maxPistons);
-		getLogger().info("Active in worldNames: "+TextUtil.getListAsString(this.worldNames));
+		getLogger().info("Active in worlds: "+TextUtil.getListAsString(this.worldNames));
 
 
 		getLogger().info(this.getClass().getSimpleName()+" has been enabled");
@@ -64,7 +64,7 @@ public class PistonJammer extends JavaPlugin
 	private void loadConfigValues()
 	{
 		this.maxPistons = getConfig().getInt("maxPistons");
-		this.worldNames = getConfig().getStringList("worldNames");
+		this.worldNames = getConfig().getStringList("worlds");
 
 		this.worlds = new ArrayList<>();
 		for(String worldName : this.worldNames)
