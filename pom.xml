@@ -14,8 +14,12 @@
 
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
+			<id>spigot-repository</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>domisum-repository</id>
+			<url>http://vps.domisum.de:8081/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 
