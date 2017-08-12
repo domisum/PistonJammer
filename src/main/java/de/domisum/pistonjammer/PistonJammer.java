@@ -11,6 +11,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This plugin blocks redstone events in chunks that contain more than a specified ammount of pistons in specified worlds.
+ * <p>
+ * Both the threshold ammount of pistons and the active worlds can be changed in the configuration file.
+ * <p>
+ * The current number of pistons in each chunk of the active worlds are tracked in {@link ChunkPistonRegister}
+ * and event handling is done in the {@link PistonJammerListener}.
+ */
 public class PistonJammer extends JavaPlugin
 {
 

@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Keeps track of the current number of piston in each chunk of the worlds that are supplied in the constructor.
+ */
 public class ChunkPistonRegister
 {
 

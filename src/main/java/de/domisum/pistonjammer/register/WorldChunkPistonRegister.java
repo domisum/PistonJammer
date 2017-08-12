@@ -6,6 +6,9 @@ import org.bukkit.World;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Keeps track of the number of pistons in the chunks of the world supplied through the constructor.
+ */
 public class WorldChunkPistonRegister
 {
 
@@ -48,7 +51,7 @@ public class WorldChunkPistonRegister
 
 		int newCount = countBefore+delta;
 		if(newCount < 0)
-			throw new IllegalArgumentException("The count cant go below 0");
+			throw new IllegalArgumentException("The count can't go below 0");
 
 		this.chunkPistonCount.put(new ChunkLocation(cX, cZ), newCount);
 	}

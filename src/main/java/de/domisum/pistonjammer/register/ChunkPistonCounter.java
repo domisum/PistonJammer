@@ -3,6 +3,9 @@ package de.domisum.pistonjammer.register;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
 
+/**
+ * Counts the number of pistons in the chunk supplied in the constructor arguments.
+ */
 public class ChunkPistonCounter
 {
 
