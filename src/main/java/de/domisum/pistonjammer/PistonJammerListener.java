@@ -21,6 +21,7 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This listener processes the redstone event, which it will cancel if the number of pistons in its chunk are too high.
@@ -198,7 +199,7 @@ public class PistonJammerListener implements Listener
 			Chunk oldChunk = block.getChunk();
 			Chunk newChunk = newBlock.getChunk();
 
-			if(oldChunk == newChunk)
+			if(Objects.equals(oldChunk, newChunk))
 				continue;
 
 			if(!isPiston(block))
