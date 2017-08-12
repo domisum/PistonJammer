@@ -24,7 +24,7 @@ public class PistonJammer extends JavaPlugin
 	// REFERENCES
 	@Getter private static PistonJammer instance;
 
-	@Getter ChunkPistonRegister chunkPistonRegister;
+	@Getter private ChunkPistonRegister chunkPistonRegister;
 
 	// SETTINGS
 	@Getter private int maxPistons;
