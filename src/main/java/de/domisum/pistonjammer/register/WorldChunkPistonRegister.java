@@ -58,6 +58,17 @@ public class WorldChunkPistonRegister
 		this.chunkPistonCount.put(new ChunkLocation(cX, cZ), newCount);
 	}
 
+	private void unloadChunkPistonCount(int cX, int cZ)
+	{
+		ChunkLocation chunkLocation = new ChunkLocation(cX, cZ);
+		this.chunkPistonCount.remove(chunkLocation);
+	}
+
+	public void unloadChunkPistonCount(Chunk chunk)
+	{
+		unloadChunkPistonCount(chunk.getX(), chunk.getZ());
+	}
+
 
 	// COUNTING
 	private void countChunkPistons(int cX, int cZ)

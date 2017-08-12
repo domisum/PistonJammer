@@ -49,4 +49,10 @@ public class ChunkPistonRegister
 		register.changeChunkPistons(chunk.getX(), chunk.getZ(), delta);
 	}
 
+	public void unloadChunkPistonCount(Chunk chunk)
+	{
+		WorldChunkPistonRegister register = getRegister(chunk.getWorld());
+		register.unloadChunkPistonCount(chunk);
+	}
+
 }

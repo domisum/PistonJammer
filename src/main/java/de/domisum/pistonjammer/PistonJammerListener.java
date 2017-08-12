@@ -16,12 +16,17 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
 /**
  * This listener processes the redstone event, which it will cancel if the number of pistons in its chunk are too high.
+ * <p>
+ * It listens to chunk load events and counts then number of pistons in the chunk when one is loaded. When a chunk is unloaded,
+ * the number of pistons of this chunk is cleared from memory.
  * <p>
  * It also processes events which change the number of pistons in the chunk
  * and alters the number of pistons in the chunk saved in the ChunkPistonRegister accordingly.
@@ -39,6 +44,25 @@ public class PistonJammerListener implements Listener
 	{
 		Plugin instance = PistonJammer.getInstance();
 		instance.getServer().getPluginManager().registerEvents(this, instance);
+	}
+
+
+	// EVENTS: CHUNK LOAD
+	@EventHandler public void onChunkLoad(ChunkLoadEvent event)
+	{
+		if(!isActiveInWorld(event.getWorld()))
+			return;
+
+		// call this to count the pistons
+		getChunkPistonRegister().getChunkPistons(event.getChunk());
+	}
+
+	@EventHandler public void onChunkUnload(ChunkUnloadEvent event)
+	{
+		if(!isActiveInWorld(event.getWorld()))
+			return;
+
+		getChunkPistonRegister().unloadChunkPistonCount(event.getChunk());
 	}
 
 
@@ -129,6 +153,10 @@ public class PistonJammerListener implements Listener
 		if(direction == BlockFace.DOWN || direction == BlockFace.UP)
 			return;
 
+		if(!blocks.isEmpty())
+			if(!isActiveInWorld(blocks.get(0).getWorld()))
+				return;
+
 		for(Block block : blocks)
 		{
 			Block newBlock = block.getRelative(direction);
@@ -139,8 +167,11 @@ public class PistonJammerListener implements Listener
 			if(oldChunk == newChunk)
 				continue;
 
-			checkChangeChunkPistons(block, -1);
-			checkChangeChunkPistons(newBlock, +1);
+			if(!isPiston(block))
+				continue;
+
+			getChunkPistonRegister().changeChunkPistons(block.getChunk(), -1);
+			getChunkPistonRegister().changeChunkPistons(newBlock.getChunk(), +1);
 		}
 	}
 
@@ -178,11 +209,15 @@ public class PistonJammerListener implements Listener
 		if(!isActiveInWorld(block.getWorld()))
 			return;
 
-		Material material = block.getType();
-		if(!(material == Material.PISTON_BASE || material == Material.PISTON_STICKY_BASE))
+		if(!isPiston(block))
 			return;
 
 		getChunkPistonRegister().changeChunkPistons(block.getChunk(), delta);
 	}
 
+	private static boolean isPiston(Block block)
+	{
+		Material material = block.getType();
+		return material == Material.PISTON_BASE || material == Material.PISTON_STICKY_BASE;
+	}
 }
