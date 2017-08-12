@@ -1,7 +1,6 @@
 package de.domisum.pistonjammer;
 
 import de.domisum.lib.auxilium.util.TextUtil;
-import de.domisum.lib.auxiliumspigot.AuxiliumSpigotLib;
 import de.domisum.pistonjammer.register.ChunkPistonRegister;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -38,8 +37,6 @@ public class PistonJammer extends JavaPlugin
 	{
 		instance = this;
 
-		AuxiliumSpigotLib.enable(this);
-
 		initConfig();
 		loadConfigValues();
 
@@ -55,9 +52,6 @@ public class PistonJammer extends JavaPlugin
 
 	@Override public void onDisable()
 	{
-		AuxiliumSpigotLib.disable();
-
-
 		getLogger().info(this.getClass().getSimpleName()+" has been disabled");
 	}
 
