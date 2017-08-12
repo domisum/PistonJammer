@@ -80,12 +80,6 @@
 							</excludes>
 						</filter>
 					</filters>
-					<artifactSet>
-						<excludes>
-							<exclude>com.google.guava:guava</exclude>
-							<exclude>com.google.code.gson:gson</exclude>
-						</excludes>
-					</artifactSet>
 				</configuration>
 			</plugin>
 
