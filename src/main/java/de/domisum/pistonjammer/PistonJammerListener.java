@@ -188,9 +188,10 @@ public class PistonJammerListener implements Listener
 		if(direction == BlockFace.DOWN || direction == BlockFace.UP)
 			return;
 
-		if(!blocks.isEmpty())
-			if(!isActiveInWorld(blocks.get(0).getWorld()))
-				return;
+		if(blocks.isEmpty())
+			return;
+		if(!isActiveInWorld(blocks.get(0).getWorld()))
+			return;
 
 		for(Block block : blocks)
 		{
