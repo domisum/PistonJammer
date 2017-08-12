@@ -59,12 +59,6 @@ public class PistonJammerListener implements Listener
 	}
 
 	// EVENTS: REDSTONE
-
-	/**
-	 * Cancels the redstone event if the number of pistons in the chunk are too high.
-	 *
-	 * @param event the redstoneEvent
-	 */
 	@EventHandler public void onRedstone(BlockRedstoneEvent event)
 	{
 		if(isRedstoneActivated(event.getBlock().getChunk()))
@@ -119,11 +113,19 @@ public class PistonJammerListener implements Listener
 			checkChangeChunkPistons(block, -1);
 	}
 
+	/**
+	 * @param event the piston event
+	 * @see #pistonMoveBlocks(List, BlockFace)
+	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockMoveByPiston(BlockPistonExtendEvent event)
 	{
 		pistonMoveBlocks(event.getBlocks(), event.getDirection());
 	}
 
+	/**
+	 * @param event the piston event
+	 * @see #pistonMoveBlocks(List, BlockFace)
+	 */
 	@EventHandler(priority = EventPriority.MONITOR) public void onBlockMoveByPiston(BlockPistonRetractEvent event)
 	{
 		pistonMoveBlocks(event.getBlocks(), event.getDirection());
@@ -172,8 +174,10 @@ public class PistonJammerListener implements Listener
 
 	private boolean isRedstoneActivated(Chunk chunk)
 	{
-		int pistonCount = getChunkPistonRegister().getChunkPistons(chunk);
+		if(!isActiveInWorld(chunk.getWorld()))
+			return true;
 
+		int pistonCount = getChunkPistonRegister().getChunkPistons(chunk);
 		return pistonCount <= PistonJammer.getInstance().getMaxPistons();
 	}
 
